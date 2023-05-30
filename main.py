@@ -134,7 +134,7 @@ def calculate_hours_worked():
     hours = []
     current_time = dt.now().time()
     weekday = dt.now().isoweekday()
-    if weekday < 6 and current_time < date.time(20,0):
+    if weekday < 6 and current_time > date.time(20,0):
         cursor .execute("select * from access")
         rows = cursor.fetchall()  
         for row in rows:
