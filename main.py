@@ -2,10 +2,14 @@ import mysql.connector
 import os
 import functions as fc
 from datetime import datetime as dt
+import datetime as date
 import csv
 import time
+import collections
 
 PATH = 'Project/'
+input_dir = PATH + 'inputs/'
+backup_dir = PATH + 'backup_inputs/'
 
 conn = mysql.connector.connect(host='localhost',user='root', password='root',database = 'project')
 cursor = conn.cursor()
@@ -50,7 +54,7 @@ class Gate_csv():
             if acces_id == row[0]:
                 print('Access granted')
                 data = [acces_id, now.strftime("%Y-%m-%d %H:%M:%S"), 'in']
-                with open(PATH+'Inputs/Gate'+str(self.id_gate)+'.csv', 'w', newline='') as file:
+                with open(input_dir+'Gate'+str(self.id_gate)+'.csv', 'w', newline='') as file:
                     writer = csv.writer(file)
                     writer.writerow(data)
                     break
@@ -79,39 +83,45 @@ class Gate_csv():
             print('Try again')
             Gate_csv(self.id_gate).acces_out()
 
+
+
+
+
 def transfer_to_DB():
     old_files = []
     while True:
-        files = os.listdir(PATH+'inputs')
+        files = os.listdir(input_dir)
         if len(old_files) != len(files):
             for new_file in files:
                 if not new_file in old_files:
-                    with open(PATH+'inputs/'+new_file, 'r') as file:
+                    with open(input_dir+new_file, 'r') as file:
                         reader = csv.reader(file)
                         for row in reader:
-                            cursor.execute(f"insert into access values ('{row[0]}', '{row[2]}', '{row[1]}', '{new_file[4]}')")
-                            conn.commit()
+                            if len(row) >= 3:
+                                cursor.execute(f"insert into access values ('{row[0]}', '{row[2]}', '{row[1]}', '{new_file[4]}')")
+                                conn.commit()
+                            
         old_files = files
-        time.sleep(5) 
+        
 
 
 
 def transfer_to_backup():
     head = ['IdPersoana', 'Data', 'Sens']
-    input_dir = PATH + 'inputs/'
-    backup_dir = PATH + 'backup_inputs/'
-    
     while True:
         files = os.listdir(input_dir)
         for f in files:
             with open(input_dir + f, 'r') as file:
                 reader = csv.reader(file)
                 rows = list(reader)
-                
+                    
             if f not in os.listdir(backup_dir):
                 with open(backup_dir + f, 'w', newline='') as file:
                     writer = csv.writer(file)
                     writer.writerow(head)
+                with open(backup_dir + f, 'a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerows(rows)
             else:
                 with open(backup_dir + f, 'a', newline='') as file:
                     writer = csv.writer(file)
@@ -119,10 +129,38 @@ def transfer_to_backup():
                 os.remove(os.path.join(input_dir,f))
 
 
+   
+def calculate_hours_worked():
+    hours = []
+    current_time = dt.now().time()
+    weekday = dt.now().isoweekday()
+    if weekday < 6 and current_time < date.time(20,0):
+        cursor .execute("select * from access")
+        rows = cursor.fetchall()  
+        for row in rows:
+            if row[1] == 'in':
+                entry = row[2]
+            else:
+                output = row[2]
+                hours_worked = output - entry
+                h = {row[0]: hours_worked.seconds}
+                hours.append(h)
+        counter = collections.Counter()
+        for t in hours:
+            counter.update(t)
+        total_hours = dict(counter)
+        print(total_hours)
 
+                
+# calculate_hours_worked()    
+# x = Gate_csv(1)
+# x.acces_out()
 
+# transfer_to_DB()
 
-
+    
 conn.close()
 cursor.close()
+
+
 
