@@ -134,21 +134,26 @@ def calculate_hours_worked():
     hours = []
     current_time = dt.now().time()
     weekday = dt.now().isoweekday()
-    if weekday < 6 and current_time > date.time(20,0):
-        cursor .execute("select * from access")
+    if weekday < 6 and current_time < date.time(20,0):
+        cursor .execute("select * from access where direction = 'in'")
         rows = cursor.fetchall()  
+        a = []
         for row in rows:
             date_today = row[2].date()
             if date_today == dt.now().date():
-                if row[1] == 'in':     
-                    id = row[0]
-                    entry = {id:row[2]}
-                else:
-                    x = row[2] - entry[id]         
-                    h = {row[0]: x.seconds}
-                    hours.append(h)
-
-        print(hours)                              
+                entry = row[2]
+                cursor .execute("select * from access where direction = 'out'")
+                x = cursor.fetchall() 
+                for y in x:
+                    if y[0] == row[0]:
+                        out = y[2]
+                        if entry not in a and out not in a:
+                            q = out - entry
+                            a.append(entry)
+                            a.append(out)
+                            h = {y[0]:q.seconds}
+                            hours.append(h)
+                                         
         counter = collections.Counter()
         for t in hours:
             counter.update(t)
