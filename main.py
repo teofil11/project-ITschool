@@ -134,25 +134,34 @@ def calculate_hours_worked():
     hours = []
     current_time = dt.now().time()
     weekday = dt.now().isoweekday()
-    if weekday < 6 and current_time < date.time(20,0):
+    if weekday < 6 and current_time > date.time(20,0):
         cursor .execute("select * from access")
         rows = cursor.fetchall()  
         for row in rows:
-            if row[1] == 'in':
-                entry = row[2]
-            else:
-                output = row[2]
-                hours_worked = output - entry
-                h = {row[0]: hours_worked.seconds}
-                hours.append(h)
+            date_today = row[2].date()
+            if date_today == dt.now().date():
+                if row[1] == 'in':     
+                    id = row[0]
+                    entry = {id:row[2]}
+                else:
+                    x = row[2] - entry[id]         
+                    h = {row[0]: x.seconds}
+                    hours.append(h)
+
+        print(hours)                              
         counter = collections.Counter()
         for t in hours:
             counter.update(t)
         total_hours = dict(counter)
         print(total_hours)
+        for key,value in total_hours.items():
+            if value < 28800:
+                print(f'Employee with ID {key} did not work 8 hours on {date_today}')
+
+
 
                 
-# calculate_hours_worked()    
+calculate_hours_worked()    
 # x = Gate_csv(1)
 # x.acces_out()
 
