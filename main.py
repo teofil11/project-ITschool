@@ -1,6 +1,6 @@
 import mysql.connector
 import os
-import functions as fc
+from functions import functions as fc
 from datetime import datetime as dt
 import datetime as date
 import csv
@@ -134,7 +134,7 @@ def calculate_hours_worked():
     hours = []
     current_time = dt.now().time()
     weekday = dt.now().isoweekday()
-    if weekday < 6 and current_time < date.time(20,0):
+    if weekday < 6 and current_time > date.time(20,0):
         cursor .execute("select * from access where direction = 'in'")
         rows = cursor.fetchall()  
         a = []
@@ -162,15 +162,6 @@ def calculate_hours_worked():
         for key,value in total_hours.items():
             if value < 28800:
                 print(f'Employee with ID {key} did not work 8 hours on {date_today}')
-
-
-
-                
-calculate_hours_worked()    
-# x = Gate_csv(1)
-# x.acces_out()
-
-# transfer_to_DB()
 
     
 conn.close()
