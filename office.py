@@ -4,7 +4,7 @@ from datetime import datetime as dt
 import csv
 
 PATH = 'Project/'
-input_dir = PATH + 'inputs/'
+input_dir = PATH + 'Inputs/'
 
 conn = mysql.connector.connect(host='localhost',user='root', password='root',database = 'project')
 cursor = conn.cursor()
@@ -58,7 +58,7 @@ class Gate_csv(Gate):
             if access_id == row[0]:
                 print('Access granted')
                 data = [access_id, now.strftime("%Y-%m-%d %H:%M:%S"), 'in']
-                with open(input_dir+'Gate'+str(self.id_gate)+'.csv', 'w', newline='') as file:
+                with open(input_dir+'Gate'+str(self.id_gate)+'('+str(now.strftime("%Y-%m-%d %H-%M-%S"))+')'+'.csv', 'w', newline='') as file:
                     writer = csv.writer(file)
                     writer.writerow(data)
                     break
@@ -77,7 +77,7 @@ class Gate_csv(Gate):
             if access_id == row[0]:
                 print('access granted')
                 data = [access_id, now.strftime("%Y-%m-%d %H:%M:%S"), 'out']
-                with open(PATH+'Inputs/Gate'+str(self.id_gate)+'.csv', 'w', newline='') as file:
+                with open(input_dir+'Gate'+str(self.id_gate)+'('+str(now.strftime("%Y-%m-%d %H-%M-%S"))+')'+'.csv', 'w', newline='') as file:
                     writer = csv.writer(file)
                     writer.writerow(data)
                     break
@@ -99,7 +99,7 @@ class Gate_txt(Gate):
             if access_id == row[0]:
                 print('Access granted')
                 data = [str(f"{access_id},"),now.strftime("%Y-%m-%d %H:%M:%S"),',','in']
-                with open(input_dir+'Gate'+str(self.id_gate)+'.txt', 'w') as file:
+                with open(input_dir+'Gate'+str(self.id_gate)+'('+str(now.strftime("%Y-%m-%d %H-%M-%S"))+')'+'.txt', 'w') as file:
                     file.writelines(data)
                     break
         else:
@@ -116,7 +116,7 @@ class Gate_txt(Gate):
             if access_id == row[0]:
                 print('Access granted')
                 data = [str(f"{access_id},"),now.strftime("%Y-%m-%d %H:%M:%S"),',','out']
-                with open(PATH+'Inputs/Gate'+str(self.id_gate)+'.txt', 'w') as file:
+                with open(input_dir+'Gate'+str(self.id_gate)+'('+str(now.strftime("%Y-%m-%d %H-%M-%S"))+')'+'.txt', 'w') as file:
                     file.writelines(data)
                     break
 
