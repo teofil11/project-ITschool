@@ -66,7 +66,7 @@ class Gate_csv(Gate):
         else:
             print('Access denied')
             print('Try again')
-            Gate_csv(self.id_gate).acces_in()       
+            Gate_csv(self.id_gate).access_in()       
     
     def access_out(self):
         now = dt.now()
@@ -85,7 +85,7 @@ class Gate_csv(Gate):
         else:
             print('Access denied')
             print('Try again')
-            Gate_csv(self.id_gate).acces_out()
+            Gate_csv(self.id_gate).access_out()
 
 class Gate_txt(Gate):
     def __init__(self,id_gate):
@@ -134,30 +134,34 @@ def menu():
         print("""1.Registration
 2.Access in
 3.Access out""")
-        x = int(input('Choice: '))
-        if x == 1:
-            Employee()
-        if x == 2:
-            y = int(input('Choice gate: '))
-            if y == 1:
-                gate1.access_in()
-            if y == 2:
-                gate2.access_in()
-            if y == 3:
-                gate3.access_in()
-            if y == 4:
-                gate4.access_in()
-        if x ==3:
-            y = int(input('Choice gate: '))
-            if y == 1:
-                gate1.access_out()
-            if y == 2:
-                gate2.access_out()
-            if y == 3:
-                gate3.access_out()
-            if y == 4:
-                gate4.access_out()
-
+        try:
+            x = int(input('Choice: '))
+            if x == 1:
+                Employee()
+            if x == 2:
+                y = int(input('Choice gate: '))
+                if y == 1:
+                    gate1.access_in()
+                if y == 2:
+                    gate2.access_in()
+                if y == 3:
+                    gate3.access_in()
+                if y == 4:
+                    gate4.access_in()
+            if x ==3:
+                y = int(input('Choice gate: '))
+                if y == 1:
+                    gate1.access_out()
+                if y == 2:
+                    gate2.access_out()
+                if y == 3:
+                    gate3.access_out()
+                if y == 4:
+                    gate4.access_out()
+            else:
+                print('Wrong option')
+        except ValueError:
+            print('The data entered must be an integer')
 menu()
 
 conn.close()
