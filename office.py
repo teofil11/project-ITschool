@@ -162,6 +162,7 @@ def menu():
                 print('Wrong option')
         except ValueError:
             print('The data entered must be an integer')
+            
 menu()
 
 conn.close()
