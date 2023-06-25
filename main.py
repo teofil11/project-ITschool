@@ -54,22 +54,31 @@ def main():
         if len(old_files) != len(files):
             for new_file in files:
                 if fc.IsCsv(new_file) is True:
+                    lines = []
                     with open(input_dir+new_file, 'r') as file:
                         reader = csv.reader(file)
-                        for row in reader:
-                            if len(row) >= 3:
-                                cursor.execute(f"insert into access values ('{row[0]}', '{row[2]}', '{row[1]}', '{new_file[4]}')")
-                                conn.commit()
+                        for line in reader:
+                            cleaned_row = [item.replace("T", " ").replace("Z", "") for item in line]
+                            lines.append(cleaned_row)
+                    for row in lines:    
+                        if len(row) >= 3:
+                            if row[0] == "IdPersoana":
+                                continue
+                            cursor.execute(f"insert into access values ('{row[0]}', '{row[2]}', '{row[1]}', '{new_file[6]}')")
+                            conn.commit()
                 if fc.IsTxt(new_file) is True:
                     with open(input_dir+new_file, 'r') as file:
-                        text = (file.read())
-                        x = text.split(',')
+                        text = (file.readlines())
+                        print(text)
+                    for line in text:
+                        new_line = line.rstrip(";\n").replace('T', " ").replace('Z', '')
+                        x = new_line.split(',')
                         if len(x) >= 3:
-                            cursor.execute(f"insert into access values ('{x[0]}', '{x[2]}', '{x[1]}', '{new_file[4]}')")
+                            cursor.execute(f"insert into access values ('{x[0]}', '{x[2]}', '{x[1]}', '{new_file[6]}')")
                             conn.commit()
-                os.replace(input_dir+new_file, backup_dir+new_file)                    
+                # os.replace(input_dir+new_file, backup_dir+new_file)                    
         old_files = files
-        time.sleep(10)
+        # time.sleep(10)
 
 
 main()
