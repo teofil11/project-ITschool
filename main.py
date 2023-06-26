@@ -69,9 +69,8 @@ def main():
                 if fc.IsTxt(new_file) is True:
                     with open(input_dir+new_file, 'r') as file:
                         text = (file.readlines())
-                        print(text)
                     for line in text:
-                        new_line = line.rstrip(";\n").replace('T', " ").replace('Z', '')
+                        new_line = line.rstrip(";\n ").replace('T', " ").replace('Z', '')
                         x = new_line.split(',')
                         if len(x) >= 3:
                             cursor.execute(f"insert into access values ('{x[0]}', '{x[2]}', '{x[1]}', '{new_file[6]}')")

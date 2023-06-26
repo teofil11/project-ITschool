@@ -37,133 +37,33 @@ class Employee():
 
 
 
-class Gate():
-    def __init__(self,id_gate):
-        self.id_gate = id_gate
-    def access_in(self):
+class File():
+    def __init__(self,name,path):
+        self.name = name
+        self.path = path
+    def read_file():
         pass
-    def access_out(self):
+    def write_file():
         pass
 
 
-class Gate_csv(Gate):
-    def __init__(self,id_gate):
-        super().__init__(id_gate)
-    def access_in(self):
-        now = dt.now()
-        access_id = int(input('Enter the id: '))
-        cursor.execute('select * from employees')
-        rows = cursor.fetchall()
-        for row in rows:
-            if access_id == row[0]:
-                print('Access granted')
-                data = [access_id, now.strftime("%Y-%m-%d %H:%M:%S"), 'in']
-                with open(input_dir+'Gate'+str(self.id_gate)+'('+str(now.strftime("%Y-%m-%d %H-%M-%S"))+')'+'.csv', 'w', newline='') as file:
-                    writer = csv.writer(file)
-                    writer.writerow(data)
-                    break
+class File_csv(File):
+    def __init__(self,name,path):
+        super().__init__(name,path)
+    def read_file():
+        pass
+    def write_file():
+        pass
 
-        else:
-            print('Access denied')
-            print('Try again')
-            Gate_csv(self.id_gate).access_in()       
-    
-    def access_out(self):
-        now = dt.now()
-        access_id = int(input('Enter the id: '))
-        cursor.execute('select * from employees')
-        rows = cursor.fetchall()
-        for row in rows:
-            if access_id == row[0]:
-                print('access granted')
-                data = [access_id, now.strftime("%Y-%m-%d %H:%M:%S"), 'out']
-                with open(input_dir+'Gate'+str(self.id_gate)+'('+str(now.strftime("%Y-%m-%d %H-%M-%S"))+')'+'.csv', 'w', newline='') as file:
-                    writer = csv.writer(file)
-                    writer.writerow(data)
-                    break
+class File_txt(File):
+    def __init__(self,name,path):
+        super().__init__(name,path)
+    def read_file():
+        pass
+    def write_file():
+        pass
 
-        else:
-            print('Access denied')
-            print('Try again')
-            Gate_csv(self.id_gate).access_out()
 
-class Gate_txt(Gate):
-    def __init__(self,id_gate):
-        super().__init__(id_gate)
-    def access_in(self):
-        now = dt.now()
-        access_id = int(input('Enter the id: '))
-        cursor.execute('select * from employees')
-        rows = cursor.fetchall()
-        for row in rows:
-            if access_id == row[0]:
-                print('Access granted')
-                data = [str(f"{access_id},"),now.strftime("%Y-%m-%d %H:%M:%S"),',','in']
-                with open(input_dir+'Gate'+str(self.id_gate)+'('+str(now.strftime("%Y-%m-%d %H-%M-%S"))+')'+'.txt', 'w') as file:
-                    file.writelines(data)
-                    break
-        else:
-            print('Access denied')
-            print('Try again')
-            Gate_txt(self.id_gate).access_in() 
-
-    def access_out(self):
-        now = dt.now()
-        access_id = int(input('Enter the id: '))
-        cursor.execute('select * from employees')
-        rows = cursor.fetchall()
-        for row in rows:
-            if access_id == row[0]:
-                print('Access granted')
-                data = [str(f"{access_id},"),now.strftime("%Y-%m-%d %H:%M:%S"),',','out']
-                with open(input_dir+'Gate'+str(self.id_gate)+'('+str(now.strftime("%Y-%m-%d %H-%M-%S"))+')'+'.txt', 'w') as file:
-                    file.writelines(data)
-                    break
-
-        else:
-            print('Access denied')
-            print('Try again')
-            Gate_txt(self.id_gate).access_out()
-
-def menu():
-    gate1 = Gate_csv(1)
-    gate2 = Gate_csv(2)
-    gate3 = Gate_txt(3)
-    gate4 = Gate_txt(4)
-    while True:
-        print("""1.Registration
-2.Access in
-3.Access out""")
-        try:
-            x = int(input('Choice: '))
-            if x == 1:
-                Employee()
-            if x == 2:
-                y = int(input('Choice gate: '))
-                if y == 1:
-                    gate1.access_in()
-                if y == 2:
-                    gate2.access_in()
-                if y == 3:
-                    gate3.access_in()
-                if y == 4:
-                    gate4.access_in()
-            if x ==3:
-                y = int(input('Choice gate: '))
-                if y == 1:
-                    gate1.access_out()
-                if y == 2:
-                    gate2.access_out()
-                if y == 3:
-                    gate3.access_out()
-                if y == 4:
-                    gate4.access_out()
-            else:
-                print('Wrong option')
-        except ValueError:
-            print('The data entered must be an integer')
-            
-menu()
 
 conn.close()
 cursor.close()
