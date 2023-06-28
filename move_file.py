@@ -1,8 +1,9 @@
 import mysql.connector
 import files as f
-from datetime import datetime as dt
+from datetime import date as dt
 from functions.typefile import isCsv,isTxt
 from functions.formatfile import format_file
+import os
 
 
 PATH = 'Project/'
@@ -36,4 +37,9 @@ def move_db(file_name):
                 conn.commit()
 
 
-# def move_backup(file_name):
+def move_backup(file_name):
+    time_today = (dt.today())
+    f_name = file_name.split('.')[0]
+    ext_file = file_name.split('.')[1]
+    new_file_name = f'{f_name}({time_today}).{ext_file}'
+    os.rename(input_dir+file_name, backup_dir + new_file_name)
