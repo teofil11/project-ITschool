@@ -1,10 +1,6 @@
 import mysql.connector
 from functions import functions as fc
-from datetime import datetime as dt
-import csv
 
-PATH = 'Project/'
-input_dir = PATH + 'Inputs/'
 
 conn = mysql.connector.connect(host='localhost',user='root', password='root',database = 'project')
 cursor = conn.cursor()
@@ -35,35 +31,6 @@ class Employee():
                 registration(self)
         registration(self)
 
-
-
-class File():
-    def __init__(self,name,path):
-        self.name = name
-        self.path = path
-    def read_file():
-        pass
-    def write_file():
-        pass
-
-
-class File_csv(File):
-    def __init__(self,name,path):
-        super().__init__(name,path)
-    def read_file():
-        pass
-    def write_file():
-        pass
-
-class File_txt(File):
-    def __init__(self,name,path):
-        super().__init__(name,path)
-    def read_file():
-        pass
-    def write_file():
-        pass
-
-
-
+x = Employee()
 conn.close()
 cursor.close()
