@@ -1,46 +1,39 @@
 import mysql.connector
-import collections
-from datetime import datetime as dt
-import datetime as date
+from functions.sendmail import send_email
+from datetime import date as dt
 
-conn = mysql.connector.connect(host='localhost',user='root', password='root',database = 'project')
+conn = mysql.connector.connect(host='localhost', user='root', password='root', database='project')
 cursor = conn.cursor()
 
-
 def calculate_hours_worked():
-    hours = []
-    current_time = dt.now().time()
-    weekday = dt.now().isoweekday()
-    if weekday < 6 and current_time > date.time(20,0):
-        cursor .execute("select * from access where direction = 'in'")
-        rows = cursor.fetchall()  
-        a = []
-        for row in rows:
-            date_today = row[2].date()
-            if date_today == dt.now().date():
-                entry = row[2]
-                cursor .execute("select * from access where direction = 'out'")
-                x = cursor.fetchall() 
-                for y in x:
-                    if y[0] == row[0]:
-                        out = y[2]
-                        if entry not in a and out not in a:
-                            q = out - entry
-                            a.append(entry)
-                            a.append(out)
-                            h = {y[0]:q.seconds//3600}
-                            hours.append(h)
-                                     
-        counter = collections.Counter()
-        for t in hours:
-            counter.update(t)
-        total_hours = dict(counter)
-        print(total_hours)
-        for key,value in total_hours.items():
-            if value < 8:
-                print(f'Employee with ID {key} did not work 8 hours on {date_today}')
+    cursor.execute("select cast(access.date as date) from access where cast(access.date as date) = curdate()")
+    rows = cursor.fetchall()
+    hours = {}
+    persons = {}
+
+    for row in rows:
+        employee_id = row[0]
+        direction = row[1]
+        timestamp = row[2]
+
+        if direction == "in":
+            for out_row in rows:
+                if out_row[0] == employee_id and out_row[1] == "out" and out_row[2] > timestamp:
+                    exit_time = out_row[2]
+                    break
+            else:
+                continue 
+
+            duration = (exit_time - timestamp).seconds // 3600
+
+            if employee_id in hours:
+                hours[employee_id] += duration
+            else:
+                hours[employee_id] = duration
+    for key,value in hours.items():
+        persons[key] = {'email': 'Teodorescu_teofil@yahoo.com'}
+    for key in persons.items():
+        email = key[1]['email']
+        send_email('Teodorescu_teofil@yahoo.com', 'Employee hours worked', f"Employee with id {key[0]} didn't work 8 hours in {dt.today()}")
 
 calculate_hours_worked()
-
-conn.close()
-cursor.close()
