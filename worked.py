@@ -34,4 +34,4 @@ def calculate_hours_worked():
         persons[key] = {'email': 'Teodorescu_teofil@yahoo.com'}
     for key in persons.items():
         email = key[1]['email']
-        send_email('Teodorescu_teofil@yahoo.com', 'Employee hours worked', f"Employee with id {key[0]} didn't work 8 hours in {dt.today()}")
+        send_email(email, 'Employee hours worked', f"Employee with id {key[0]} didn't work 8 hours in {dt.today()}")

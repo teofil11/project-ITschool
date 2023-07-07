@@ -10,8 +10,10 @@ PATH = 'Project/'
 input_dir = PATH + 'inputs/'
 backup_dir = PATH + 'backup_inputs/'
 
+
 conn = mysql.connector.connect(host='localhost',user='root', password='root',database = 'project')
 cursor = conn.cursor()
+
 
 def move_db(file_name):
     qwery = "insert into access values"

@@ -13,8 +13,16 @@ class Employee():
         self.idManager = idManager
 
         def registration(self):
+            if self.idManager == 'CEO':
+                cursor.execute(f"insert into employees values (null, '{wUpper(self.fName)}', '{wUpper(self.lName)}', '{wUpper(self.company)}', '{self.idManager}');")
+                conn.commit()
+                print('You have successfully registered')
+            
             cursor.execute('select * from employees')
             rows = cursor.fetchall()
+            if len(rows)==0:
+                print(f'The manager with id {self.idManager} is not from the {wUpper(self.company)} company')
+                print('Try again2')
             for row in rows:
                 if self.idManager == str(row[0]):
                     if wUpper(self.company) == row[3]:
@@ -23,13 +31,8 @@ class Employee():
                         print('You have successfully registered')
                     else:
                         print(f'The manager with id {self.idManager} is not from the {wUpper(self.company)} company')
-                        print('Try again')
-            else:
-                print(f'The manager with id {self.idManager} is not from the {wUpper(self.company)} company')
-                print('Try again')
-            if self.idManager == 'CEO':
-                cursor.execute(f"insert into employees values (null, '{wUpper(self.fName)}', '{wUpper(self.lName)}', '{wUpper(self.company)}', '{self.idManager}');")
-                conn.commit()
-                print('You have successfully registered')
+                        print('Try again1')
+
+            
 
         registration(self)
