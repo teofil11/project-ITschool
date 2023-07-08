@@ -6,6 +6,10 @@ conn = mysql.connector.connect(host='localhost', user='root', password='root', d
 cursor = conn.cursor()
 
 def calculate_hours_worked():
+    """
+    Calculate the hours worked by employees and send email notifications for those who didn't work a full 8 hours.
+
+    """
     cursor.execute("select * from access where cast(access.date as date) = curdate()")
     rows = cursor.fetchall()
     hours = {}

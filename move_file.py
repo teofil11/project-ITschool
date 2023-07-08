@@ -6,16 +6,21 @@ from functions.formatfile import format_file
 import os
 
 
-PATH = 'Project/'
-input_dir = PATH + 'inputs/'
-backup_dir = PATH + 'backup_inputs/'
+input_dir = 'inputs/'
+backup_dir = 'backup_inputs/'
 
 
 conn = mysql.connector.connect(host='localhost',user='root', password='root',database = 'project')
 cursor = conn.cursor()
 
 
-def move_db(file_name):
+def move_db(file_name)-> str:
+    """
+    Move the contents of a file to a database.
+
+    Args:
+        file_name (str): The name of the file to be processed.
+    """
     qwery = "insert into access values"
     if isCsv(file_name) is True:
         file = f.File_csv(input_dir,file_name)
@@ -39,7 +44,14 @@ def move_db(file_name):
                 conn.commit()
 
 
-def move_backup(file_name):
+def move_backup(file_name) -> str:
+    """
+    Move a file to a backup directory with a new name containing the current timestamp.
+
+    Args:
+        file_name (str): The name of the file to be moved.
+
+    """
     time_today = (dt.today())
     f_name = file_name.split('.')[0]
     ext_file = file_name.split('.')[1]

@@ -1,4 +1,5 @@
 import csv
+import subprocess
 
 
 class File():
@@ -14,6 +15,7 @@ class File_csv(File):
     def __init__(self,path,name):
         super().__init__(name,path)
     def read_file(self):
+        subprocess.check_call(["attrib", "-H", self.path])
         with open(self.path + self.name, 'r') as file:
             reader = csv.reader(file)
             for row in reader:
@@ -26,6 +28,7 @@ class File_txt(File):
         super().__init__(name,path)
         
     def read_file(self):
+        subprocess.check_call(["attrib", "-H", self.path])
         with open(self.path + self.name, 'r') as file:
             content = (file.readlines())
             for row in content:

@@ -13,6 +13,12 @@ def index():
 
 @app.route('/person',methods=["POST"])
 def insert():
+    """
+    Process user data and insert it into the registration system.
+
+    Returns:
+        str: A message indicating that the user has been processed.
+    """
     data=request.get_json()
     fName = data['prenume']
     lName = data['nume']
@@ -23,6 +29,12 @@ def insert():
 
 @app.route('/gate', methods = ['POST'])
 def json_gate():
+    """
+    Process JSON data related to gate access and insert it into the access table.
+
+    Returns:
+        str: A message indicating that the data has been processed.
+    """
     data = request.get_json()
     data_value = data['data']
     sens = data['sens']

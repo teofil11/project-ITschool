@@ -21,5 +21,14 @@ class Mail:
 
 
 def send_email(mails,subject,content):
+    """
+    Send an email to the specified recipients.
+
+    Args:
+        mails (str or list): The email address or a list of email addresses to send the email to.
+        subject (str): The subject of the email.
+        content (str): The content or body of the email.
+
+    """
     mail = Mail()
     mail.send(mails, subject, content)
