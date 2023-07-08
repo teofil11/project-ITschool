@@ -3,18 +3,19 @@ from move_file import move_db,move_backup
 from worked import calculate_hours_worked as calculate
 import schedule
 import threading
-import office_server
 import time
 import subprocess
 
 
 
-PATH = 'Project/'
-input_dir = PATH + 'inputs/'
-backup_dir = PATH + 'backup_inputs/'
-
+input_dir = 'inputs/'
+backup_dir = 'backup_inputs/'
 
 def main():
+    """
+    Main function for file processing and scheduling.
+
+    """
     old_files = []
     schedule.every().day.at("20:00").do(calculate)
     while True:
@@ -27,7 +28,13 @@ def main():
         schedule.run_pending()
 
 def server():
-    subprocess.run(["python", PATH+"office_server.py"], check=True)
+    """
+    Start the office server using a subprocess.
+
+    Raises:
+        subprocess.CalledProcessError: If the subprocess fails to execute.
+    """
+    subprocess.run(["python", "office_server.py"], check=True)
 
 t1 = threading.Thread(target=main)
 t2 = threading.Thread(target=server)
@@ -37,6 +44,7 @@ t2.start()
 
 t1.join()
 t2.join()
+
 
 
 
