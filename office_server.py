@@ -19,13 +19,19 @@ def insert():
     Returns:
         str: A message indicating that the user has been processed.
     """
-    data=request.get_json()
-    fName = data['prenume']
-    lName = data['nume']
-    company = data['companie']
-    idManager = (data['idManager'].upper())
-    registration.Employee(fName,lName,company,idManager)
-    return 'The user has been processed'
+    try:
+        data=request.get_json()
+        fName = data['prenume']
+        lName = data['nume']
+        company = data['companie']
+        idManager = (data['idManager'].upper())
+        registration.Employee(fName,lName,company,idManager)
+        return 'The user has been processed'
+    
+    except KeyError:
+        return '500 Internal Server Error'
+
+    
 
 @app.route('/gate', methods = ['POST'])
 def json_gate():
@@ -35,15 +41,20 @@ def json_gate():
     Returns:
         str: A message indicating that the data has been processed.
     """
-    data = request.get_json()
-    data_value = data['data']
-    sens = data['sens']
-    idPerson = data['idPersoana']
-    idGate = data['idPoarta']
-    data_format = data_value.replace("T", " ").replace("Z", "")
-    cursor.execute(f"insert into access values({idPerson},'{sens}', '{data_format}', {int(idGate)})")
-    conn.commit()
-    return 'The data has been processed'
+    try:
+        data = request.get_json()
+        data_value = data['data']
+        sens = data['sens']
+        idPerson = data['idPersoana']
+        idGate = data['idPoarta']
+        data_format = data_value.replace("T", " ").replace("Z", "")
+        cursor.execute(f"insert into access values({idPerson},'{sens}', '{data_format}', {int(idGate)})")
+        conn.commit()
+        return 'The data has been processed'
+    
+    except KeyError:
+        return '500 Internal Server Error'
+        
 
 
 
