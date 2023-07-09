@@ -15,6 +15,9 @@ def main():
     """
     Main function for file processing and scheduling.
 
+    This function checks for new files in the input directory and performs certain actions on them.
+    It also schedules the execution of the `calculate` function every day at 20:00.
+    
     """
     old_files = []
     schedule.every().day.at("20:00").do(calculate)
@@ -29,10 +32,10 @@ def main():
 
 def server():
     """
-    Start the office server using a subprocess.
+    Starts the office server.
 
-    Raises:
-        subprocess.CalledProcessError: If the subprocess fails to execute.
+    This function executes the "office_server.py" script using the `subprocess.run` function.
+
     """
     subprocess.run(["python", "office_server.py"], check=True)
 

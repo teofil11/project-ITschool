@@ -14,10 +14,14 @@ def index():
 @app.route('/person',methods=["POST"])
 def insert():
     """
-    Process user data and insert it into the registration system.
+    Inserts a new employee into the system based on the provided data.
 
     Returns:
-        str: A message indicating that the user has been processed.
+        str: A message indicating the status of the operation.
+
+    Raises:
+        KeyError: If the required data is missing in the request.
+
     """
     try:
         data=request.get_json()
@@ -36,10 +40,14 @@ def insert():
 @app.route('/gate', methods = ['POST'])
 def json_gate():
     """
-    Process JSON data related to gate access and insert it into the access table.
+    Processes JSON data related to gate access and inserts it into the database.
 
     Returns:
-        str: A message indicating that the data has been processed.
+        str: A message indicating the status of the operation.
+
+    Raises:
+        KeyError: If the required data is missing in the request.
+
     """
     try:
         data = request.get_json()

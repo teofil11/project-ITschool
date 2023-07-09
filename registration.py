@@ -33,10 +33,8 @@ class Employee():
                         cursor.execute(f"insert into employees values (null, '{wUpper(self.fName)}', '{wUpper(self.lName)}', '{wUpper(self.company)}', '{self.idManager}');")   
                         conn.commit()
                         print('You have successfully registered')
-                    else:
-                        print(f'The manager with id {self.idManager} is not from the {wUpper(self.company)} company')
-                        print('Try again')
-
-            
+                else:
+                    print(f'The manager with id {self.idManager} is not from the {wUpper(self.company)} company')
+                    print('Try again')
 
         registration(self)
