@@ -10,19 +10,24 @@ conn = mysql.connector.connect(host='localhost',user='root', password='root',dat
 cursor = conn.cursor()
 
 @app.route('/')
-def hello():
-    return render_template('home_page.html')
+def home():
+    query = "select * from project.employees"
+    cursor.execute(query)
+    employees = cursor.fetchall()
 
-@app.route('/person')
-def index_login():
-    return render_template('login.html')
+    return render_template('home_page.html', employees = employees)
+
+
+@app.route('/signup')
+def sign_up():
+    return render_template('signup.html')
 
 @app.route('/meet')
 def index_meet():
     return render_template('meeting.html')
 
 
-@app.route('/person',methods=["POST"])
+@app.route('/signup',methods=["POST"])
 def insert():
     """
     Inserts a new employee into the system based on the provided data.
@@ -35,7 +40,6 @@ def insert():
 
     """
     try:
-        render_template('login.html')
         data=request.get_json()
         fName = data['prenume']
         lName = data['nume']
@@ -87,7 +91,6 @@ def meeting():
         str: '500 Internal Server Error' if KeyError occurs while retrieving data from the JSON request.
     """
     try:
-        render_template('meeting.html')
         data = request.get_json()
         data_value = data['data']
         hour = data['hour']
