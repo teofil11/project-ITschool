@@ -26,22 +26,22 @@ def move_db(file_name)-> str:
         file = f.File_csv(input_dir,file_name)
         content = file.read_file()
         f_content = format_file(file_name,content)
-        for row in f_content:
+        for i,row in enumerate(f_content):
             if len(row) >= 3:
-                if row[0] == "IdPersoana":
-                    continue
-                cursor.execute(f"{qwery} ('{row[0]}', '{row[2]}', '{row[1]}', '{file_name[6]}')")
-                conn.commit()
+                if i != 0:
+                    cursor.execute(f"{qwery} ('{row[0]}', '{row[2]}', '{row[1]}', '{file_name[6]}')")
+                    conn.commit()
 
     if isTxt(file_name) is True:
         file = f.File_txt(input_dir,file_name)
         content = file.read_file()
         f_content = format_file(file_name,content)
-        for rows in f_content:
+        for i,rows in enumerate(f_content):
             row = rows.split(',')
             if len(row) >= 3:
-                cursor.execute(f"{qwery} ('{row[0]}', '{row[2]}', '{row[1]}', '{file_name[6]}')")
-                conn.commit()
+                if i != 0:
+                    cursor.execute(f"{qwery} ('{row[0]}', '{row[2]}', '{row[1]}', '{file_name[6]}')")
+                    conn.commit()
 
 
 def move_backup(file_name) -> str:
