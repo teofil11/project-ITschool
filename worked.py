@@ -35,7 +35,12 @@ def calculate_hours_worked():
             else:
                 hours[employee_id] = duration
     for key,value in hours.items():
-        persons[key] = {'email': 'Teodorescu_teofil@yahoo.com'}
+        if value < 8:
+            cursor.execute(f'select IdManager, Email from project.employees where Id = {key}')
+            row = cursor.fetchone()
+            email = row[1]
+            persons[key] = email
+
     for key in persons.items():
-        email = key[1]['email']
+        email = key[1]
         send_email(email, 'Employee hours worked', f"Employee with id {key[0]} didn't work 8 hours in {dt.today()}")
