@@ -13,7 +13,6 @@ def calculate_hours_worked():
     cursor.execute("select * from access where cast(access.date as date) = curdate()")
     rows = cursor.fetchall()
     hours = {}
-    persons = {}
 
     for row in rows:
         employee_id = row[0]
@@ -36,11 +35,12 @@ def calculate_hours_worked():
                 hours[employee_id] = duration
     for key,value in hours.items():
         if value < 8:
-            cursor.execute(f'select IdManager, Email from project.employees where Id = {key}')
-            row = cursor.fetchone()
+            cursor.execute(f"""SELECT t1.id,t2.email AS 'email_manager'
+                                FROM employees AS t1
+                                JOIN employees AS t2 ON t1.idmanager = t2.id
+                                where t1.id = {key};""")
+        rows = cursor.fetchall()
+        for row in rows:
+            id_employee = row[0]
             email = row[1]
-            persons[key] = email
-
-    for key in persons.items():
-        email = key[1]
-        send_email(email, 'Employee hours worked', f"Employee with id {key[0]} didn't work 8 hours in {dt.today()}")
+            send_email(email, 'Employee hours worked', f"Employee with id {id_employee} didn't work 8 hours in {dt.today()}")
