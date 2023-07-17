@@ -37,7 +37,8 @@
           nume: $("#nume").val(),
           prenume: $("#prenume").val(),
           companie: $("#companie").val(),
-          idManager: $("#manager").val()
+          idManager: $("#manager").val(),
+          email: $("#email").val()
         };
         console.log(formData)
 
@@ -73,6 +74,9 @@
 
     <label for="message">Id Manager:</label>
     <input id="manager" name="message" required>
+
+    <label for="message">Email:</label>
+    <input id="email" name="message" required>
     <input type="submit" value="Submit">
   </form>
 </body>

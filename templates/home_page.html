@@ -47,6 +47,7 @@
             <th>Last Name</th>
             <th>Company</th>
             <th>ID Manager</th>
+            <th>Email</th>
         </tr>
         {% for employee in employees %}
             <tr>
@@ -55,6 +56,7 @@
                 <td>{{ employee[2] }}</td>
                 <td>{{ employee[3] }}</td>
                 <td>{{ employee[4] }}</td>
+                <td>{{ employee[5] }}</td>
             </tr>
         {% endfor %}
     </table>

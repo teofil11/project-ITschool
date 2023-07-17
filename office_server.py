@@ -45,7 +45,8 @@ def insert():
         lName = data['nume']
         company = data['companie']
         idManager = (data['idManager'].upper())
-        registration.Employee(fName,lName,company,idManager)
+        email = data['email']
+        registration.Employee(fName,lName,company,idManager,email)
         return 'The user has been processed'
     
     except KeyError:
