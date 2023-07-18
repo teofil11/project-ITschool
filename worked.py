@@ -44,3 +44,4 @@ def calculate_hours_worked():
             id_employee = row[0]
             email = row[1]
             send_email(email, 'Employee hours worked', f"Employee with id {id_employee} didn't work 8 hours in {dt.today()}")
+            return f'The email was sent to address {email}'

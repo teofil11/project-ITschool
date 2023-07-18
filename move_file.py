@@ -42,7 +42,7 @@ def move_db(file_name)-> str:
                 if i != 0:
                     cursor.execute(f"{qwery} ('{row[0]}', '{row[2]}', '{row[1]}', '{file_name[6]}')")
                     conn.commit()
-
+    return f'The data from file {file_name} has been entered into the database successfully'
 
 def move_backup(file_name) -> str:
     """
@@ -61,7 +61,9 @@ def move_backup(file_name) -> str:
         ext_file = file_name.split('.')[1]
         new_file_name = f'{f_name}({time_today}).{ext_file}'
         os.rename(input_dir+file_name, backup_dir + new_file_name)
+        return f'File {file_name} has been moved to the backup folder'
     except FileExistsError:
         new_file_name = f'{f_name}({time_today}){len(os.listdir(backup_dir))}.{ext_file}'
         os.rename(input_dir+file_name, backup_dir + new_file_name)
+        return f'File {file_name} has been moved to the backup folder'
     

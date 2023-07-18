@@ -17,13 +17,13 @@ class Employee():
             """
             Register an employee in the database.
 
-            If there is an exception of type 'mysql.connector.errors.ProgrammingError', it means that the input contains non-letter characters.
+            If there is an exception of type 'mysql.connector.errors.ProgrammingError'.
             """
             try:
                 if self.idManager == 'CEO':
                     cursor.execute(f"insert into employees values (null, '{wUpper(self.fName)}', '{wUpper(self.lName)}', '{wUpper(self.company)}', '{self.idManager}','{self.email}');")
                     conn.commit()
-                    print('You have successfully registered')
+                    return 'You have successfully registered'
                     
                 cursor.execute('select * from employees')
                 rows = cursor.fetchall()
@@ -33,9 +33,9 @@ class Employee():
                         if wUpper(self.company) == row[3]:
                             cursor.execute(f"insert into employees values (null, '{wUpper(self.fName)}', '{wUpper(self.lName)}', '{wUpper(self.company)}', '{self.idManager}','{self.email}');")   
                             conn.commit()
-                            print('You have successfully registered')
+                            return 'You have successfully registered'
 
             except mysql.connector.errors.ProgrammingError:
-                print('Please enter only letters')
+                return 'There was a problem with writing the data in the database'
 
         registration(self)

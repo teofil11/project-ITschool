@@ -20,3 +20,4 @@ def meet_email(list_of_persons,subject,content):
         row = cursor.fetchone()
         email = row[0]
         send_email(email,subject,content)
+        return f'The mail was sent to address {email}'
