@@ -29,6 +29,7 @@ def main():
                 move_backup(new_file)                   
         old_files = files
         schedule.run_pending()
+        time.sleep(3)
 
 def server():
     """
@@ -47,11 +48,3 @@ t2.start()
 
 t1.join()
 t2.join()
-
-
-
-
-
-
-
-
