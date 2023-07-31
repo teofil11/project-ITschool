@@ -62,8 +62,6 @@ def move_backup(file_name) -> str:
         new_file_name = f'{f_name}({time_today}).{ext_file}'
         os.rename(input_dir+file_name, backup_dir + new_file_name)
         return f'File {file_name} has been moved to the backup folder'
-    except FileExistsError:
-        new_file_name = f'{f_name}({time_today}){len(os.listdir(backup_dir))}.{ext_file}'
-        os.rename(input_dir+file_name, backup_dir + new_file_name)
-        return f'File {file_name} has been moved to the backup folder'
+    except FileExistsError:        
+        return 'This file already exists'
     
